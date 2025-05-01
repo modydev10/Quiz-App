@@ -181,6 +181,10 @@ function handleNext() {
         }, 2000)
 
     } else {
+        // removing the click event because when selecting an option
+        // then clicking the next button you can click it more than one time
+        // and skip questions.
+        nextButton.removeEventListener('click', handleNext);
 
         let correctAnswer = qNa[counter].true;
 
@@ -191,7 +195,6 @@ function handleNext() {
                 quizEnd();
                 return '';
             }
-
             setTimeout(function() {
                 selected.classList.remove('correct');
                 labels.forEach(item => item.classList.remove('selected'));
@@ -199,8 +202,9 @@ function handleNext() {
                     //     Swal.fire("it's over")
                     // }
                 counter++;
+                nextButton.addEventListener('click', handleNext);
                 changeQuestion();
-            }, 500);
+            }, 2000);
         } else {
             document.querySelector(`[for=${correctAnswer}]`).classList.add('correct');
             selected.classList.add('wrong');
@@ -214,8 +218,9 @@ function handleNext() {
                 document.querySelector(`[for=${correctAnswer}]`).classList.remove('correct');
                 labels.forEach(item => item.classList.remove('selected', 'wrong'));
                 counter++;
+                nextButton.addEventListener('click', handleNext);
                 changeQuestion();
-            }, 500)
+            }, 2000)
         }
     }
 }
